@@ -18,15 +18,14 @@ package nl.knaw.dans.validatecli;
 
 import lombok.extern.slf4j.Slf4j;
 import nl.knaw.dans.lib.util.AbstractCommandLineApp;
-import nl.knaw.dans.lib.util.CliVersionProvider;
+import nl.knaw.dans.lib.util.PicocliVersionProvider;
 import nl.knaw.dans.validatecli.config.DdValidateDansBagCliConfig;
-import picocli.AutoComplete.GenerateCompletion;
 import picocli.CommandLine;
 import picocli.CommandLine.Command;
 
 @Command(name = "dans-bag-validate",
          mixinStandardHelpOptions = true,
-         versionProvider = CliVersionProvider.class,
+         versionProvider = PicocliVersionProvider.class,
          description = "Command-line client for validating DANS bags")
 @Slf4j
 public class DdValidateDansBagCli extends AbstractCommandLineApp<DdValidateDansBagCliConfig> {
