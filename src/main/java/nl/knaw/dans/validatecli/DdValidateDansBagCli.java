@@ -16,12 +16,25 @@
 
 package nl.knaw.dans.validatecli;
 
+import com.fasterxml.jackson.core.JsonProcessingException;
+import com.fasterxml.jackson.databind.ObjectMapper;
 import lombok.extern.slf4j.Slf4j;
 import nl.knaw.dans.lib.util.AbstractCommandLineApp;
+import nl.knaw.dans.lib.util.ClientProxyBuilder;
 import nl.knaw.dans.lib.util.PicocliVersionProvider;
+import nl.knaw.dans.validatecli.api.ValidateCommandDto;
+import nl.knaw.dans.validatecli.api.ValidateCommandDto.PackageTypeEnum;
+import nl.knaw.dans.validatecli.api.ValidateOkDto;
+import nl.knaw.dans.validatecli.client.ApiClient;
+import nl.knaw.dans.validatecli.client.ApiException;
+import nl.knaw.dans.validatecli.client.DefaultApi;
 import nl.knaw.dans.validatecli.config.DdValidateDansBagCliConfig;
 import picocli.CommandLine;
 import picocli.CommandLine.Command;
+import picocli.CommandLine.Option;
+import picocli.CommandLine.Parameters;
+
+import java.io.File;
 
 @Command(name = "dans-bag-validate",
          mixinStandardHelpOptions = true,
@@ -29,6 +42,10 @@ import picocli.CommandLine.Command;
          description = "Command-line client for validating DANS bags")
 @Slf4j
 public class DdValidateDansBagCli extends AbstractCommandLineApp<DdValidateDansBagCliConfig> {
+    private static final ObjectMapper MAPPER = new ObjectMapper();
+    private DefaultApi api;
+    private PackageTypeEnum defaultPackageType;
+
     public static void main(String[] args) throws Exception {
         new DdValidateDansBagCli().run(args);
     }
@@ -37,10 +54,47 @@ public class DdValidateDansBagCli extends AbstractCommandLineApp<DdValidateDansB
         return "Command-line client for validating DANS bags";
     }
 
+    @Parameters(index = "0",
+                description = "The path to the bag to validate")
+    private File bagPath;
+
+    @Option(names = { "-p", "--package-type  " },
+            description = "The type of package to validate (DEPOSIT or MIGRATION)")
+    private PackageTypeEnum packageType;
+
     @Override
     public void configureCommandLine(CommandLine commandLine, DdValidateDansBagCliConfig config) {
-        // TODO: set up the API client, if applicable
+        api = new ClientProxyBuilder<ApiClient, DefaultApi>()
+            .apiClient(new ApiClient())
+            .basePath(config.getValidateDansBagService().getUrl())
+            .httpClient(config.getValidateDansBagService().getHttpClient())
+            .defaultApiCtor(DefaultApi::new)
+            .build();
         log.debug("Configuring command line");
-        // TODO: add options and subcommands
+        defaultPackageType = config.getValidateDansBagService().getDefaultPackageType();
+    }
+
+    @Override
+    public Integer call() {
+        try {
+            ValidateOkDto result = null;
+            if (bagPath.isFile()) {
+                result = api.validateZipPost(bagPath);
+            }
+            else {
+                var command = new ValidateCommandDto()
+                    .bagLocation(bagPath.toPath().toString())
+                    .packageType(packageType != null ? packageType : defaultPackageType);
+                result = api.validateLocalDirPost(command);
+            }
+            System.out.println(MAPPER.writeValueAsString(result));
+            return 0;
+        }
+        catch (ApiException | JsonProcessingException e) {
+            System.err.println("Error while validating bag: " + e.getMessage());
+            e.printStackTrace();
+            log.error("Error while validating bag", e);
+            return 1;
+        }
     }
 }

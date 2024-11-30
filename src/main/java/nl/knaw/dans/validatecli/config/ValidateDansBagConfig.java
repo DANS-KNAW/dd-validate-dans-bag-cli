@@ -13,20 +13,21 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-
 package nl.knaw.dans.validatecli.config;
 
 import io.dropwizard.client.JerseyClientConfiguration;
-import io.dropwizard.core.Configuration;
 import lombok.Data;
-import lombok.EqualsAndHashCode;
 import nl.knaw.dans.validatecli.api.ValidateCommandDto.PackageTypeEnum;
 
 import javax.validation.constraints.NotNull;
 import java.net.URI;
 
 @Data
-@EqualsAndHashCode(callSuper = true)
-public class DdValidateDansBagCliConfig extends Configuration {
-    private ValidateDansBagConfig validateDansBagService;
+public class ValidateDansBagConfig {
+    @NotNull
+    private URI url;
+    @NotNull
+    private PackageTypeEnum defaultPackageType = PackageTypeEnum.DEPOSIT;
+    @NotNull
+    private JerseyClientConfiguration httpClient;
 }

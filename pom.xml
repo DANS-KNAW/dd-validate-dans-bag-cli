@@ -37,6 +37,7 @@
     <properties>
         <main-class>nl.knaw.dans.validatecli.DdValidateDansBagCli</main-class>
         <command-name>dans-bag-validate</command-name>
+        <dd-validate-dans-bag-api.version>0.5.1-SNAPSHOT</dd-validate-dans-bag-api.version>
     </properties>
 
     <scm>
@@ -165,6 +166,52 @@
             <plugin>
                 <groupId>nl.knaw.dans</groupId>
                 <artifactId>dans-nexus-maven-plugin</artifactId>
+            </plugin>
+            <plugin>
+                <groupId>org.apache.maven.plugins</groupId>
+                <artifactId>maven-dependency-plugin</artifactId>
+                <executions>
+                    <execution>
+                        <phase>initialize</phase>
+                        <goals>
+                            <goal>unpack</goal>
+                        </goals>
+                        <configuration>
+                            <artifactItems>
+                                <artifactItem>
+                                    <groupId>nl.knaw.dans</groupId>
+                                    <artifactId>dd-validate-dans-bag-api</artifactId>
+                                    <version>${dd-validate-dans-bag-api.version}</version>
+                                    <outputDirectory>${project.build.directory}/openapi</outputDirectory>
+                                </artifactItem>
+                            </artifactItems>
+                        </configuration>
+                    </execution>
+                </executions>
+            </plugin>
+            <plugin>
+                <groupId>org.openapitools</groupId>
+                <artifactId>openapi-generator-maven-plugin</artifactId>
+                <executions>
+                    <execution>
+                        <id>generate-dd-validate-dans-bag-api</id>
+                        <goals>
+                            <goal>generate</goal>
+                        </goals>
+                        <configuration>
+                            <inputSpec>${project.build.directory}/openapi/dd-validate-dans-bag-api.yml</inputSpec>
+                            <generatorName>java</generatorName>
+                            <configOptions>
+                                <apiPackage>nl.knaw.dans.validatecli.client</apiPackage>
+                                <modelPackage>nl.knaw.dans.validatecli.api</modelPackage>
+                                <invokerPackage>nl.knaw.dans.validatecli.client</invokerPackage>
+                                <annotationLibrary>none</annotationLibrary>
+                                <library>jersey2</library>
+                                <openApiNullable>false</openApiNullable>
+                            </configOptions>
+                        </configuration>
+                    </execution>
+                </executions>
             </plugin>
             <plugin>
                 <groupId>org.apache.maven.plugins</groupId>

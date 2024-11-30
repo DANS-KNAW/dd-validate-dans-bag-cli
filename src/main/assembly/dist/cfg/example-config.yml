@@ -8,3 +8,15 @@ logging:
       archive: false
       timeZone: system
       currentLogFilename: ${HOME}/dd-validate-dans-bag-cli.log
+
+
+validateDansBagService:
+  url: http://localhost:20330
+  defaultPackageType: DEPOSIT
+  httpClient:
+    timeout: 30s
+    connectionTimeout: 15s
+    connectionRequestTimeout: 15s
+    timeToLive: 1h
+    retries: 2
+    userAgent: dd-validate-dans-bag-cli
