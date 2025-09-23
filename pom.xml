@@ -22,7 +22,7 @@
     <parent>
         <groupId>nl.knaw.dans</groupId>
         <artifactId>dd-parent</artifactId>
-        <version>1.9.0</version>
+        <version>1.9.1-SNAPSHOT</version>
     </parent>
 
     <artifactId>dd-validate-dans-bag-cli</artifactId>
@@ -36,7 +36,6 @@
     <properties>
         <main-class>nl.knaw.dans.validatecli.DdValidateDansBagCli</main-class>
         <command-name>dans-bag-validate</command-name>
-        <dd-validate-dans-bag-api.version>1.0.0</dd-validate-dans-bag-api.version>
     </properties>
 
     <scm>
