@@ -22,7 +22,16 @@ repo_name: DANS-KNAW/dd-validate-dans-bag-cli
 repo_url: https://github.com/DANS-KNAW/dd-validate-dans-bag-cli
 
 nav:
-  - Manual: index.md
+  - Manual:
+      - Introduction: index.md
+      - Description: description.md
+      - Installation: installation.md
+      - Context: context.md
+  - Development:
+      - Overview: dev.md
+
+extra:
+  validate_dans_bag_api: https://dans-knaw.github.io/dd-validate-dans-bag/swagger-ui/
 
 plugins:
   - markdownextradata
