@@ -65,10 +65,10 @@ public class DdValidateDansBagCli extends AbstractCommandLineApp<DdValidateDansB
     @Override
     public void configureCommandLine(CommandLine commandLine, DdValidateDansBagCliConfig config) {
         api = new ClientProxyBuilder<ApiClient, DefaultApi>()
-            .apiClient(new ApiClient())
+            .apiClientCtor(ApiClient::new)
             .basePath(config.getValidateDansBagService().getUrl())
             .httpClient(config.getValidateDansBagService().getHttpClient())
-            .defaultApiCtor(DefaultApi::new)
+            .proxyCtor(DefaultApi::new)
             .build();
         log.debug("Configuring command line");
         defaultPackageType = config.getValidateDansBagService().getDefaultPackageType();
