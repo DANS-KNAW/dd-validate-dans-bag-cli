@@ -30,7 +30,7 @@
 
     <name>DD Validate Dans Bag Cli</name>
     <description>Command-line client for validating DANS bags</description>
-    <url>https://github.com/DANS-KNAW/dd-validate-dans-bag-cli</url>
+    <url>https://dans-knaw.github.io/dd-validate-dans-bag-cli</url>
     <inceptionYear>2024</inceptionYear>
 
     <scm>
