@@ -107,7 +107,6 @@
         <dependency>
             <groupId>nl.knaw.dans</groupId>
             <artifactId>dd-validate-dans-bag-api</artifactId>
-            <version>${dd-validate-dans-bag-api.version}</version>
         </dependency>
     </dependencies>
 
