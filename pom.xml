@@ -26,7 +26,7 @@
     </parent>
 
     <artifactId>dd-validate-dans-bag-cli</artifactId>
-    <version>1.0.1-SNAPSHOT</version>
+    <version>1.0.1</version>
 
     <name>DD Validate Dans Bag Cli</name>
     <description>Command-line client for validating DANS bags</description>
@@ -36,7 +36,7 @@
     <scm>
         <connection>scm:git:https://github.com/DANS-KNAW/dd-validate-dans-bag-cli</connection>
         <developerConnection>scm:git:ssh://github.com/DANS-KNAW/dd-validate-dans-bag-cli</developerConnection>
-        <tag>HEAD</tag>
+        <tag>v1.0.1</tag>
         <url>https://github.com/DANS-KNAW/dd-validate-dans-bag-cli</url>
     </scm>
 
